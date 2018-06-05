@@ -46,14 +46,14 @@ class LogsController extends CBController
         foreach ($diff as $key => $value) {
 
             $old_str = $old_values[$key];
-            if ($old_values[$key] && strlen($old_values[$key]) > 100){
-                $old_str = substr($old_values[$key],0, 100);
+            if ($old_values[$key] && strlen($old_values[$key]) > 1000){
+                $old_str = substr($old_values[$key],0, 1000);
                 $old_str .= '...';
             }
 
             $new_str = $new_values[$key];
-            if ($new_values[$key] && strlen($new_values[$key]) > 100){
-                $new_str = substr($new_values[$key],0, 100);
+            if ($new_values[$key] && strlen($new_values[$key]) > 1000){
+                $new_str = substr($new_values[$key],0, 1000);
                 $new_str .= '...';
             }
 
