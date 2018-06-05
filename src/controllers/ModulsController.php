@@ -1869,7 +1869,7 @@ class ModulsController extends CBController
         }
 
         $types = [];
-        foreach (glob(base_path('vendor/crocodicstudio/crudbooster/src/views/default/type_components').'/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob(base_path('vendor/psh24053/crudbooster/src/views/default/type_components').'/*', GLOB_ONLYDIR) as $dir) {
             $types[] = basename($dir);
         }
 
@@ -1879,7 +1879,7 @@ class ModulsController extends CBController
     public function getTypeInfo($type = 'text')
     {
         header("Content-Type: application/json");
-        echo file_get_contents(base_path('vendor/crocodicstudio/crudbooster/src/views/default/type_components/'.$type.'/info.json'));
+        echo file_get_contents(base_path('vendor/psh24053/crudbooster/src/views/default/type_components/'.$type.'/info.json'));
     }
 
     public function postStep4()
