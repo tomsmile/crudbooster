@@ -123,6 +123,10 @@ class CBController extends Controller
 
     public $sidebar_mode = 'normal';
 
+    // 是否允许启用 变更日志 记录
+    public $allow_log_save = true;
+
+
     public function cbLoader()
     {
         $this->cbInit();
@@ -1368,10 +1372,18 @@ class CBController extends Controller
 
         //insert log
         $old_values = json_decode(json_encode($row), true);
-        CRUDBooster::insertLog(trans("crudbooster.log_update", [
-            'name' => $this->arr[$this->title_field],
-            'module' => CRUDBooster::getCurrentModule()->name,
-        ]), LogsController::displayDiff($old_values, $this->arr));
+        if ($this->allow_log_save){
+            CRUDBooster::insertLog(trans("crudbooster.log_update", [
+                'name' => $this->arr[$this->title_field],
+                'module' => CRUDBooster::getCurrentModule()->name,
+            ]), LogsController::displayDiff($old_values, $this->arr));
+        }else{
+            CRUDBooster::insertLog(trans("crudbooster.log_update", [
+                'name' => $this->arr[$this->title_field],
+                'module' => CRUDBooster::getCurrentModule()->name,
+            ]));
+        }
+
 
         if ($this->return_url) {
             CRUDBooster::redirect($this->return_url, trans("crudbooster.alert_update_data_success"), 'success');

@@ -45,13 +45,13 @@ class LogsController extends CBController
         $table = '<table class="table table-striped"><thead><tr><th>Key</th><th>Old Value</th><th>New Value</th></thead><tbody>';
         foreach ($diff as $key => $value) {
 
-            $old_str = $old_values[$key];
+            $old_str = htmlspecialchars($old_values[$key]);
             if ($old_values[$key] && strlen($old_values[$key]) > 1000){
                 $old_str = substr($old_values[$key],0, 1000);
                 $old_str .= '...';
             }
 
-            $new_str = $new_values[$key];
+            $new_str = htmlspecialchars($new_values[$key]);
             if ($new_values[$key] && strlen($new_values[$key]) > 1000){
                 $new_str = substr($new_values[$key],0, 1000);
                 $new_str .= '...';
