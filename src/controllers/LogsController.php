@@ -50,7 +50,6 @@ class LogsController extends CBController
                 $old_str = substr($old_values[$key],0, 1000);
                 $old_str .= '...';
             }
-
             $new_str = htmlspecialchars($new_values[$key]);
             if ($new_values[$key] && strlen($new_values[$key]) > 1000){
                 $new_str = substr($new_values[$key],0, 1000);

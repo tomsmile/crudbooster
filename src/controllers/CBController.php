@@ -1254,6 +1254,9 @@ class CBController extends Controller
             CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
         }
 
+        // 页面显示过滤
+        $this->hook_before_edit_dataload($row, $id);
+
         $page_menu = Route::getCurrentRoute()->getActionName();
         $page_title = trans("crudbooster.edit_data_page_title", ['module' => CRUDBooster::getCurrentModule()->name, 'name' => $row->{$this->title_field}]);
         $command = 'edit';
@@ -1439,6 +1442,8 @@ class CBController extends Controller
             ]));
             CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
         }
+
+        $this->hook_before_details($row, $id);
 
         $module = CRUDBooster::getCurrentModule();
 
@@ -1778,6 +1783,14 @@ class CBController extends Controller
     }
 
     public function hook_after_delete($id)
+    {
+    }
+
+    public function hook_before_edit_dataload(&$row, $id)
+    {
+    }
+
+    public function hook_before_details(&$row, $id)
     {
     }
 }
