@@ -1144,7 +1144,7 @@ class CBController extends Controller
 
         $this->hook_before_add($this->arr);
 
-        $this->arr[$this->primary_key] = $id = CRUDBooster::newId($this->table);
+//        $this->arr[$this->primary_key] = $id = CRUDBooster::newId($this->table);
         DB::table($this->table)->insert($this->arr);
 
         //Looping Data Input Again After Insert
