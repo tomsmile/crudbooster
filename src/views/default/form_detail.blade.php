@@ -7,10 +7,11 @@ $type = @$form['type'] ?: 'text';
 if (in_array($type, $asset_already)) continue;
 
 ?>
-@if(file_exists(base_path('/vendor/psh24053/crudbooster/src/views/default/type_components/'.$type.'/asset.blade.php')))
-    @include('crudbooster::default.type_components.'.$type.'.asset')
-@elseif(file_exists(resource_path('views/vendor/crudbooster/type_components/'.$type.'/asset.blade.php')))
+
+@if(file_exists(resource_path('views/vendor/crudbooster/type_components/'.$type.'/asset.blade.php')))
     @include('vendor.crudbooster.type_components.'.$type.'.asset')
+@elseif(file_exists(base_path('/vendor/tomsmile/crudbooster/src/views/default/type_components/'.$type.'/asset.blade.php')))
+    @include('crudbooster::default.type_components.'.$type.'.asset')
 @endif
 <?php
 $asset_already[] = $type;

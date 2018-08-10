@@ -126,6 +126,8 @@ class CBController extends Controller
     // 是否允许启用 变更日志 记录
     public $allow_log_save = true;
 
+    public $storage;
+
 
     public function cbLoader()
     {
@@ -188,6 +190,8 @@ class CBController extends Controller
             Session::put('current_row_id', CRUDBooster::myId());
             $this->data['return_url'] = Request::fullUrl();
         }
+
+        $this->storage = Storage::disk('gcs');
 
         view()->share($this->data);
     }
@@ -558,17 +562,17 @@ class CBController extends Controller
 
                 if (isset($col['image'])) {
                     if ($value == '') {
-                        $value = "<a  data-lightbox='roadtrip' rel='group_{{$table}}' title='$label: $title' href='" . asset(
+                        $value = "<a  data-lightbox='roadtrip' rel='group_{{$table}}' title='$label: $title' href='" . $this->storage->url(
                                 'vendor/crudbooster/avatar.jpg'
-                            ) . "'><img width='40px' height='40px' src='" . asset('vendor/crudbooster/avatar.jpg') . "'/></a>";
+                            ) . "'><img style='height:40px;max-width:80px' src='" . $this->storage->url('vendor/crudbooster/avatar.jpg') . "'/></a>";
                     } else {
-                        $pic = (strpos($value, 'http://') !== false) ? $value : asset($value);
-                        $value = "<a data-lightbox='roadtrip'  rel='group_{{$table}}' title='$label: $title' href='" . $pic . "'><img width='40px' height='40px' src='" . $pic . "'/></a>";
+                        $pic = (strpos($value, 'http://') !== false) ? $value : $this->storage->url($value);
+                        $value = "<a data-lightbox='roadtrip'  rel='group_{{$table}}' title='$label: $title' href='" . $pic . "'><img  style='height:40px;max-width:80px' src='" . $pic . "'/></a>";
                     }
                 }
 
                 if (@$col['download']) {
-                    $url = (strpos($value, 'http://') !== false) ? $value : asset($value) . '?download=1';
+                    $url = (strpos($value, 'http://') !== false) ? $value : $this->storage->url($value) . '?download=1';
                     if ($value) {
                         $value = "<a class='btn btn-xs btn-primary' href='$url' target='_blank' title='Download File'><i class='fa fa-download'></i> Download</a>";
                     } else {
