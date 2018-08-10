@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 
 class ApiController extends Controller
 {
@@ -48,6 +49,7 @@ class ApiController extends Controller
 
         // DB::enableQueryLog();
 
+        $storage = Storage::disk('gcs');
         $posts = Request::all();
         $posts_keys = array_keys($posts);
         $posts_values = array_values($posts);
@@ -101,7 +103,7 @@ class ApiController extends Controller
         |
         */
         if ($parameters) {
-            $type_except = ['password', 'ref', 'base64_file', 'custom', 'search'];
+            $type_except = ['password', 'ref', 'base64_file', 'file', 'custom', 'search','upload'];
             $input_validator = [];
             $data_validation = [];
             foreach ($parameters as $param) {
@@ -394,7 +396,7 @@ class ApiController extends Controller
                         foreach ($row as $k => $v) {
                             $ext = \File::extension($v);
                             if (in_array($ext, $uploads_format_candidate)) {
-                                $row->$k = asset($v);
+                                $row->$k = $storage->url($v);
                             }
 
                             if (! in_array($k, $responses_fields)) {
@@ -462,7 +464,7 @@ class ApiController extends Controller
                     foreach ($rows as $k => $v) {
                         $ext = \File::extension($v);
                         if (in_array($ext, $uploads_format_candidate)) {
-                            $rows->$k = asset($v);
+                            $rows->$k = $storage->url($v);
                         }
 
                         if (! in_array($k, $responses_fields)) {
@@ -529,7 +531,6 @@ class ApiController extends Controller
             }
 
             $row_assign_keys = array_keys($row_assign);
-
             foreach ($parameters as $param) {
                 $name = $param['name'];
                 $value = $posts[$name];
@@ -538,17 +539,17 @@ class ApiController extends Controller
                 $required = $param['required'];
                 $used = $param['used'];
 
-                if (! in_array($name, $row_assign_keys)) {
-
-                    continue;
-                }
-
                 if ($type == 'file' || $type == 'image') {
-                    $row_assign[$name] = CRUDBooster::uploadFile($name, true);
+                    $row_assign[$name] = CRUDBooster::uploadFile($name, true,null,null,$posts['user_id']);
                 } elseif ($type == 'base64_file') {
                     $row_assign[$name] = CRUDBooster::uploadBase64($value);
                 } elseif ($type == 'password') {
                     $row_assign[$name] = Hash::make(g($name));
+                }                
+
+                if (! in_array($name, $row_assign_keys)) {
+
+                    continue;
                 }
             }
 
