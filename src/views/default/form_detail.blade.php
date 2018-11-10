@@ -72,7 +72,7 @@ $asset_already[] = $type;
         $disabled = (@$form['disabled']) ? "disabled" : "";
         $jquery = @$form['jquery'];
         $placeholder = (@$form['placeholder']) ? "placeholder='".$form['placeholder']."'" : "";
-        $file_location = base_path('vendor/psh24053/crudbooster/src/views/default/type_components/'.$type.'/component_detail.blade.php');
+        $file_location = base_path('vendor/tomsmile/crudbooster/src/views/default/type_components/'.$type.'/component_detail.blade.php');
         $user_location = resource_path('views/vendor/crudbooster/type_components/'.$type.'/component_detail.blade.php');
 
         ?>
