@@ -13,24 +13,16 @@ Route::group(['middleware' => ['api', '\crocodicstudio\crudbooster\middlewares\C
         $namePath = strtolower(implode('/', $names)); 
         $names = strtolower(implode('_', $names));
 
-        // \Log::info([$namePath, $v.'@execute_api']);
-        if ($names == 'api_ads_primary') {
+        if (substr($names, 0, 8) == 'api_ads_') {
             Route::any($namePath, $v.'@execute_api');
         }
-        elseif ($names == 'api_ads_featured') {
-            Route::any($namePath, $v.'@execute_api');
-        }
-        elseif ($names == 'api_ads_latest') {
+        elseif ($names == 'api_pages_list') {
             Route::any($namePath, $v.'@execute_api');
         }
         elseif (substr($names, 0, 4) == 'api_') {
             $names = str_replace('api_', '', $names);
             Route::any('api/'.$names, $v.'@execute_api');
         }
-
-        // if (substr($names, 0, 4) == 'api_') {
-        //     Route::any($namePath, $v.'@execute_api');
-        // }
     }
 });
 

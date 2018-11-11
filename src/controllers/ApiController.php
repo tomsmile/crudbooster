@@ -29,7 +29,7 @@ class ApiController extends Controller
 
     }
 
-    public function hook_query(&$query)
+    public function hook_query(&$query, $params)
     {
 
     }
@@ -376,7 +376,7 @@ class ApiController extends Controller
                 $data->whereraw($theSql);
             }
 
-            $this->hook_query($data);
+            $this->hook_query($data, $posts);
 
             if ($action_type == 'list') {
                 if ($orderby) {
